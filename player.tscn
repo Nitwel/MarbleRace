@@ -1,0 +1,58 @@
+[gd_scene load_steps=9 format=3 uid="uid://qt08epwc1ham"]
+
+[ext_resource type="Script" path="res://player.gd" id="1_gyvcf"]
+[ext_resource type="Script" path="res://body.gd" id="2_sf4jh"]
+[ext_resource type="Texture2D" uid="uid://c8gvrvr5uxx4i" path="res://addons/kenney_prototype_textures/green/texture_01.png" id="3_csceu"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_d7x6m"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_310ha"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yxtsu"]
+albedo_texture = ExtResource("3_csceu")
+uv1_triplanar = true
+
+[sub_resource type="SphereMesh" id="SphereMesh_kp3t2"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_idkex"]
+properties/0/path = NodePath("Body:angular_velocity")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("Body:position")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath("Body:linear_velocity")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+
+[node name="Player" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+script = ExtResource("1_gyvcf")
+
+[node name="Body" type="RigidBody3D" parent="."]
+mass = 4.0
+physics_material_override = SubResource("PhysicsMaterial_d7x6m")
+can_sleep = false
+linear_damp = 1.0
+angular_damp = 1.0
+script = ExtResource("2_sf4jh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Body"]
+shape = SubResource("SphereShape3D_310ha")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Body"]
+material_override = SubResource("StandardMaterial3D_yxtsu")
+mesh = SubResource("SphereMesh_kp3t2")
+
+[node name="RemoteTransform3D" type="RemoteTransform3D" parent="Body"]
+remote_path = NodePath("../../Node3D")
+update_rotation = false
+update_scale = false
+
+[node name="Node3D" type="Node3D" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.79245e-07, 10.9639)
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_idkex")
