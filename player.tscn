@@ -1,8 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://qt08epwc1ham"]
+[gd_scene load_steps=11 format=3 uid="uid://qt08epwc1ham"]
 
 [ext_resource type="Script" path="res://player.gd" id="1_gyvcf"]
 [ext_resource type="Script" path="res://body.gd" id="2_sf4jh"]
 [ext_resource type="Texture2D" uid="uid://c8gvrvr5uxx4i" path="res://addons/kenney_prototype_textures/green/texture_01.png" id="3_csceu"]
+[ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_3D.gd" id="4_reb7b"]
+[ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="5_w085x"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_d7x6m"]
 
@@ -44,15 +46,32 @@ shape = SubResource("SphereShape3D_310ha")
 material_override = SubResource("StandardMaterial3D_yxtsu")
 mesh = SubResource("SphereMesh_kp3t2")
 
-[node name="RemoteTransform3D" type="RemoteTransform3D" parent="Body"]
-remote_path = NodePath("../../Node3D")
-update_rotation = false
-update_scale = false
-
-[node name="Node3D" type="Node3D" parent="."]
-
-[node name="Camera3D" type="Camera3D" parent="Node3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.79245e-07, 10.9639)
-
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_idkex")
+
+[node name="PhantomCamera3D" type="Node3D" parent="."]
+transform = Transform3D(0.999324, -0.0150511, 0.0334076, 0.0366419, 0.410485, -0.911116, 0, 0.911727, 0.410761, 0.22, -6, 2.705)
+script = ExtResource("4_reb7b")
+priority_override = false
+priority = 0
+follow_mode = 4
+follow_target = NodePath("../CameraLookTarget")
+follow_path = NodePath("")
+follow_parameters/damping = true
+follow_parameters/damping_value = 10.0
+look_at_mode = 2
+look_at_target = NodePath("../Body")
+look_at_parameters/look_at_target_offset = Vector3(0, 0, 0)
+tween_parameters = null
+tween_on_load = true
+inactive_update_mode = 0
+camera_3D_resource = null
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.999324, -0.0150511, 0.0334076, 0.0366419, 0.410485, -0.911116, 0, 0.911727, 0.410761, 0.22, -6, 2.705)
+current = true
+
+[node name="PhantomCameraHost" type="Node" parent="Camera3D"]
+script = ExtResource("5_w085x")
+
+[node name="CameraLookTarget" type="Node3D" parent="."]

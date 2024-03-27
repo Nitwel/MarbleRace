@@ -1,8 +1,7 @@
-[gd_scene load_steps=12 format=3 uid="uid://d11uoenkmv7y0"]
+[gd_scene load_steps=8 format=3 uid="uid://d11uoenkmv7y0"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_deeko"]
 [ext_resource type="PackedScene" uid="uid://nknda16bkfyk" path="res://map.tscn" id="1_oc31i"]
-[ext_resource type="Texture2D" uid="uid://b3epysdb8jp2f" path="res://addons/kenney_prototype_textures/purple/texture_06.png" id="3_n0ir1"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ufit2"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -16,27 +15,11 @@ background_mode = 2
 sky = SubResource("Sky_vhdsw")
 tonemap_mode = 2
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_hkm6e"]
-bounce = 0.35
+[sub_resource type="BoxMesh" id="BoxMesh_84wsu"]
+size = Vector3(80.555, 1, 49.505)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wa2ki"]
-albedo_texture = ExtResource("3_n0ir1")
-uv1_triplanar = true
-
-[sub_resource type="SphereMesh" id="SphereMesh_foj7t"]
-radius = 1.0
-height = 2.0
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_mj20h"]
-radius = 1.0
-
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_5t54t"]
-properties/0/path = NodePath(".:position")
-properties/0/spawn = true
-properties/0/replication_mode = 1
-properties/1/path = NodePath(".:rotation")
-properties/1/spawn = true
-properties/1/replication_mode = 1
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_htvc1"]
+data = PackedVector3Array(-40.2775, 0.5, 24.7525, 40.2775, 0.5, 24.7525, -40.2775, -0.5, 24.7525, 40.2775, 0.5, 24.7525, 40.2775, -0.5, 24.7525, -40.2775, -0.5, 24.7525, 40.2775, 0.5, -24.7525, -40.2775, 0.5, -24.7525, 40.2775, -0.5, -24.7525, -40.2775, 0.5, -24.7525, -40.2775, -0.5, -24.7525, 40.2775, -0.5, -24.7525, 40.2775, 0.5, 24.7525, 40.2775, 0.5, -24.7525, 40.2775, -0.5, 24.7525, 40.2775, 0.5, -24.7525, 40.2775, -0.5, -24.7525, 40.2775, -0.5, 24.7525, -40.2775, 0.5, -24.7525, -40.2775, 0.5, 24.7525, -40.2775, -0.5, -24.7525, -40.2775, 0.5, 24.7525, -40.2775, -0.5, 24.7525, -40.2775, -0.5, -24.7525, 40.2775, 0.5, 24.7525, -40.2775, 0.5, 24.7525, 40.2775, 0.5, -24.7525, -40.2775, 0.5, 24.7525, -40.2775, 0.5, -24.7525, 40.2775, 0.5, -24.7525, -40.2775, -0.5, 24.7525, 40.2775, -0.5, 24.7525, -40.2775, -0.5, -24.7525, 40.2775, -0.5, 24.7525, 40.2775, -0.5, -24.7525, -40.2775, -0.5, -24.7525)
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_deeko")
@@ -49,21 +32,6 @@ transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -
 shadow_enabled = true
 
 [node name="Map" parent="." instance=ExtResource("1_oc31i")]
-
-[node name="Ball" type="RigidBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 3)
-mass = 2.0
-physics_material_override = SubResource("PhysicsMaterial_hkm6e")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Ball"]
-material_override = SubResource("StandardMaterial3D_wa2ki")
-mesh = SubResource("SphereMesh_foj7t")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Ball"]
-shape = SubResource("SphereShape3D_mj20h")
-
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="Ball"]
-replication_config = SubResource("SceneReplicationConfig_5t54t")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -112,3 +80,13 @@ alignment = 1
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("res://player.tscn")
 spawn_path = NodePath("..")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+mesh = SubResource("BoxMesh_84wsu")
+skeleton = NodePath("")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_htvc1")
