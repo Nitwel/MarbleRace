@@ -54,7 +54,8 @@ boost={
 
 [physics]
 
-3d/physics_engine="GodotPhysics3D"
+common/physics_ticks_per_second=240
+3d/physics_engine="JoltPhysics3D"
 
 [rendering]
 

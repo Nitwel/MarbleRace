@@ -1,6 +1,6 @@
 extends RigidBody3D
 
-var speed = 0.5
+var speed = 30
 var jumping = false
 var in_air = false
 
@@ -34,7 +34,7 @@ func _integrate_forces(state: PhysicsDirectBodyState3D):
 
 	# 	var delta = global_position - collision_point
 
-	# 	state.transform.origin -= delta - delta.normalized() * 0.55
+	# 	state.transform.origin -= delta - delta.normalized() * 0.58
 	# 	gravity_scale = 0
 	# else:
 	# 	gravity_scale = 1
@@ -60,4 +60,4 @@ func _integrate_forces(state: PhysicsDirectBodyState3D):
 	test.global_position = global_position + Vector3(input.x, 0, input.y) * 4
 	test2.global_position = global_position + state.linear_velocity / 4
 
-	state.linear_velocity += Vector3(input.x, 0, input.y)
+	state.linear_velocity += Vector3(input.x, 0, input.y) * state.step

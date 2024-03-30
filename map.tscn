@@ -20,6 +20,10 @@ _data = {
 }
 point_count = 13
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_turo1"]
+albedo_texture = ExtResource("3_xexqd")
+uv1_triplanar = true
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_5wfyu"]
 size = Vector3(41, 20, 17)
 
@@ -28,14 +32,27 @@ script = ExtResource("4_5vqj8")
 mode = 0
 textures = [[ExtResource("5_yvh56"), ExtResource("6_8cihq"), ExtResource("7_mq040"), ExtResource("8_rmh4i")], [ExtResource("6_cpt8w"), ExtResource("10_klgv8"), ExtResource("11_vkc7v"), ExtResource("12_njdb3")]]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_turo1"]
-albedo_texture = ExtResource("3_xexqd")
-uv1_triplanar = true
-
 [node name="Map" type="Node3D"]
 
 [node name="Path3D" type="Path3D" parent="."]
 curve = SubResource("Curve3D_ki2cx")
+
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="."]
+material_override = SubResource("StandardMaterial3D_turo1")
+use_collision = true
+collision_layer = 2
+collision_mask = 2
+polygon = PackedVector2Array(-5, 0, -5, 1, 5, 1, 5, 0)
+mode = 2
+path_node = NodePath("../Path3D")
+path_interval_type = 1
+path_interval = 0.07
+path_simplify_angle = 0.1
+path_rotation = 1
+path_local = false
+path_continuous_u = true
+path_u_distance = 1.0
+path_joined = true
 
 [node name="Area3D" type="Area3D" parent="."]
 collision_layer = 7
@@ -68,20 +85,3 @@ shader_params/u_ground_uv_scale = 20
 shader_params/u_depth_blending = true
 shader_params/u_triplanar = null
 shader_params/u_tile_reduction = null
-
-[node name="CSGPolygon3D" type="CSGPolygon3D" parent="."]
-material_override = SubResource("StandardMaterial3D_turo1")
-use_collision = true
-collision_layer = 2
-collision_mask = 2
-polygon = PackedVector2Array(-5, 0, -5, 1, 5, 1, 5, 0)
-mode = 2
-path_node = NodePath("../Path3D")
-path_interval_type = 1
-path_interval = 0.11
-path_simplify_angle = 0.1
-path_rotation = 2
-path_local = false
-path_continuous_u = true
-path_u_distance = 1.0
-path_joined = true

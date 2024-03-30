@@ -36,7 +36,9 @@ script = ExtResource("1_gyvcf")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000306368, 0.00802958, 0.02775)
 collision_layer = 4
 collision_mask = 7
+mass = 10.0
 physics_material_override = SubResource("PhysicsMaterial_d7x6m")
+gravity_scale = 2.0
 can_sleep = false
 linear_damp = 1.0
 angular_damp = 1.0
@@ -45,14 +47,15 @@ script = ExtResource("2_sf4jh")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Body"]
 shape = SubResource("SphereShape3D_310ha")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Body"]
-material_override = SubResource("StandardMaterial3D_yxtsu")
-mesh = SubResource("SphereMesh_kp3t2")
-
 [node name="RemoteTransform3D" type="RemoteTransform3D" parent="Body"]
 remote_path = NodePath("../../FixedPos")
 update_rotation = false
 update_scale = false
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_yxtsu")
+mesh = SubResource("SphereMesh_kp3t2")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_idkex")
@@ -72,7 +75,7 @@ inactive_update_mode = 0
 camera_3D_resource = null
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(0.674779, -0.253713, 0.693038, 0.0960026, 0.961248, 0.258429, -0.731749, -0.107849, 0.672988, 4.08118, -0.184552, 2.14912)
+transform = Transform3D(0.0462374, -0.462513, 0.885406, 0.998929, 0.0214083, -0.0409827, 1.11759e-08, 0.886354, 0.463008, 7.541, -0.341006, 3.97103)
 
 [node name="PhantomCameraHost" type="Node" parent="Camera3D"]
 script = ExtResource("5_w085x")
