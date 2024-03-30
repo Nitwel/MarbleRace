@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://qt08epwc1ham"]
+[gd_scene load_steps=12 format=3 uid="uid://qt08epwc1ham"]
 
 [ext_resource type="Script" path="res://player.gd" id="1_gyvcf"]
 [ext_resource type="Script" path="res://body.gd" id="2_sf4jh"]
@@ -17,22 +17,25 @@ uv1_triplanar = true
 [sub_resource type="SphereMesh" id="SphereMesh_kp3t2"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_idkex"]
-properties/0/path = NodePath("Body:angular_velocity")
+properties/0/path = NodePath("Body:position")
 properties/0/spawn = true
 properties/0/replication_mode = 1
-properties/1/path = NodePath("Body:position")
+properties/1/path = NodePath("Body:rotation")
 properties/1/spawn = true
 properties/1/replication_mode = 1
-properties/2/path = NodePath("Body:linear_velocity")
-properties/2/spawn = true
-properties/2/replication_mode = 1
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_4obxd"]
+radius = 0.2
+height = 0.4
 
 [node name="Player" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
 script = ExtResource("1_gyvcf")
 
 [node name="Body" type="RigidBody3D" parent="."]
-mass = 4.0
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000306368, 0.00802958, 0.02775)
+collision_layer = 4
+collision_mask = 7
 physics_material_override = SubResource("PhysicsMaterial_d7x6m")
 can_sleep = false
 linear_damp = 1.0
@@ -46,32 +49,44 @@ shape = SubResource("SphereShape3D_310ha")
 material_override = SubResource("StandardMaterial3D_yxtsu")
 mesh = SubResource("SphereMesh_kp3t2")
 
+[node name="RemoteTransform3D" type="RemoteTransform3D" parent="Body"]
+remote_path = NodePath("../../FixedPos")
+update_rotation = false
+update_scale = false
+
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_idkex")
 
 [node name="PhantomCamera3D" type="Node3D" parent="."]
-transform = Transform3D(0.999324, -0.0150511, 0.0334076, 0.0366419, 0.410485, -0.911116, 0, 0.911727, 0.410761, 0.22, -6, 2.705)
+transform = Transform3D(0.0462374, -0.462513, 0.885406, 0.998929, 0.0214083, -0.0409827, 1.11759e-08, 0.886354, 0.463008, 7.541, -0.341006, 3.97103)
 script = ExtResource("4_reb7b")
 priority_override = false
 priority = 0
-follow_mode = 4
-follow_target = NodePath("../CameraLookTarget")
-follow_path = NodePath("")
-follow_parameters/damping = true
-follow_parameters/damping_value = 10.0
+follow_mode = 0
 look_at_mode = 2
 look_at_target = NodePath("../Body")
 look_at_parameters/look_at_target_offset = Vector3(0, 0, 0)
 tween_parameters = null
-tween_on_load = true
+tween_on_load = false
 inactive_update_mode = 0
 camera_3D_resource = null
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(0.999324, -0.0150511, 0.0334076, 0.0366419, 0.410485, -0.911116, 0, 0.911727, 0.410761, 0.22, -6, 2.705)
-current = true
+transform = Transform3D(0.674779, -0.253713, 0.693038, 0.0960026, 0.961248, 0.258429, -0.731749, -0.107849, 0.672988, 4.08118, -0.184552, 2.14912)
 
 [node name="PhantomCameraHost" type="Node" parent="Camera3D"]
 script = ExtResource("5_w085x")
 
-[node name="CameraLookTarget" type="Node3D" parent="."]
+[node name="test" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_4obxd")
+
+[node name="test2" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_4obxd")
+skeleton = NodePath("../test")
+
+[node name="FixedPos" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 2.08616e-07, 0, -2.08616e-07, 1, 0.000306368, 0.00802958, 0.02775)
+
+[node name="RayCast3D" type="RayCast3D" parent="FixedPos"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.000803709, 8.55921e-05, 0.00275427)
+collision_mask = 3

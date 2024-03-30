@@ -15,6 +15,7 @@ func _ready():
     join.button_down.connect(func():
         peer=ENetMultiplayerPeer.new()
         peer.create_client(ip_input.text, 1234)
+        peer.host.compress(ENetConnection.COMPRESS_RANGE_CODER)
         multiplayer.multiplayer_peer=peer
 
         add_player(multiplayer.get_unique_id())
@@ -24,6 +25,7 @@ func _ready():
     host.button_down.connect(func():
         peer=ENetMultiplayerPeer.new()
         peer.create_server(1234, 32)
+        peer.host.compress(ENetConnection.COMPRESS_RANGE_CODER)
         multiplayer.multiplayer_peer=peer
 
         multiplayer.peer_connected.connect(func(id):

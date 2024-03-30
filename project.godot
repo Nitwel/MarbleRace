@@ -17,7 +17,7 @@ config/icon="res://icon.svg"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/csg_mesher/plugin.cfg", "res://addons/phantom_camera/plugin.cfg")
+enabled=PackedStringArray("res://addons/csg_mesher/plugin.cfg", "res://addons/phantom_camera/plugin.cfg", "res://addons/zylann.hterrain/plugin.cfg")
 
 [input]
 
@@ -41,15 +41,20 @@ right={
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":68,"key_label":0,"unicode":100,"echo":false,"script":null)
 ]
 }
-kick={
+jump={
 "deadzone": 0.5,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":32,"key_label":0,"unicode":32,"echo":false,"script":null)
+]
+}
+boost={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194325,"key_label":0,"unicode":0,"echo":false,"script":null)
 ]
 }
 
 [physics]
 
-3d/physics_engine="JoltPhysics3D"
+3d/physics_engine="GodotPhysics3D"
 
 [rendering]
 
